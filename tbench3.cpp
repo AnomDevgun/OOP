@@ -2,11 +2,12 @@
 #include<conio.h>
 #include<stdio.h>
 #include<fstream>
+#include<string.h>
 using namespace std;
 int appnumber=1;
 struct anode{                       //ADMIN LINK LIST
     int id;
-    string pass;
+    char pass[10];
     struct anode *admnxt= NULL;
 }*adminhead = NULL;
 
@@ -19,8 +20,8 @@ struct status *stnxt = NULL;
 
 struct unode{                       //USERS LINK LIST
     int uid;
-    string user_name;
-    string upass;
+    char user_name[10];
+    char upass[10];
     struct unode *usr= NULL;
     string payment_status;
 
@@ -29,7 +30,7 @@ struct unode{                       //USERS LINK LIST
 
 struct tnode{
     int tdata;                       //TEMP USER LINK LIST
-    string temp_fname,temp_lname;
+    char temp_fname[10],temp_lname[10];
     struct tnode *tempnxt = NULL;
 }*temphead = NULL;
 
@@ -167,7 +168,7 @@ return;
 
 void accept_app(){                  //TO ACCEPT/REJECT APPLICATIONS
 int sapp=0, cnt =0,yno=0;
-string syes = "Your Application has been approved.Please use id and first name as password to login.";
+string syes = "Your Application has been approved.Please use application number as id and first name as password to login.";
 string sno = "Your Application has been rejected.";
 struct tnode *t1,*t2;
 t1 = temphead;
@@ -201,8 +202,8 @@ cin>>yno;
 if(yno == 1){
 if(u1 == NULL){
 u2->uid = t1->tdata;
-u2->upass = t1->temp_fname;
-u2->user_name =t1->temp_fname;
+strcpy(u2->upass,t1->temp_fname);
+strcpy(u2->user_name,t1->temp_fname);
 userhead = u2;
 u2->usr= NULL;
 }
@@ -210,9 +211,9 @@ else{
     while(u1->usr != NULL)
         u1=u1->usr;
     u2->uid= t1->tdata;
-    u2->upass= t1->temp_fname;
+    strcpy(u2->upass,t1->temp_fname);
     u1->usr = u2;
-    u2->user_name =t1->temp_fname;
+    strcpy(u2->user_name,t1->temp_fname);
     u2->usr = NULL;
 }
 if(s1 == NULL){
@@ -313,6 +314,97 @@ while(s!=NULL){
 }
 }
 }
+int passcheck(int a)            //password cross check
+{
+    char ps[] = "pass123";
+    struct anode *tem;
+    tem = adminhead;
+    char ch,passwo[10]={0};
+    int i = 0,j;
+    for(i=0;i>=0;)
+     {
+       ch=getch();
+
+      if(ch!=8&&ch!=13)
+        {
+         cout<<"*";
+         passwo[i]=ch;
+         i++;
+        }
+      else if (ch==8) // if backspace is presssed
+       {
+         cout<<"\b \b"; // moves cursor to the left print <space> again move cursor to left
+         i--;
+       }
+      else if(ch==13)
+    {
+         passwo[i]='\0'; // if enter is pressed, last character in match[] becomes null
+        break;         // for end of string
+    }
+    else
+    {
+         break;
+    }
+  }
+        if(a == 12345){
+        	if(strcmp(passwo,ps)==0){
+        		cout<<passwo;
+		        return 1;
+    }
+    else return 0;
+	}
+    while(tem != NULL){
+        if(tem->id == a)
+        {
+            if(strcmp(passwo,tem->pass)==0)
+                return 1;
+        }
+        tem = tem->admnxt;
+    }
+}
+
+int userlog(int ide)              //user login
+{
+    int una,i=0,j;
+    char up[10],ch,upas[10];
+    struct unode *utem;
+    utem = userhead;
+    cout<<"Please Enter your password: ";
+    for(i=0;i>=0;)
+     {
+       ch=getch();
+
+      if(ch!=8&&ch!=13)
+        {
+         cout<<"*";
+         upas[i]=ch;
+         i++;
+        }
+      else if (ch==8) // if backspace is presssed
+       {
+         cout<<"\b \b"; // moves cursor to the left print <space> again move cursor to left
+         i--;
+       }
+      else if(ch==13)
+    {
+         upas[i]='\0'; // if enter is pressed, last character in match[] becomes null
+        break;         // for end of string
+    }
+    else
+    {
+         break;
+    }
+  }
+while(utem != NULL){
+	if(utem->uid == ide)
+	{
+		if(strcmp(upas,utem->upass)==0)
+		return 1;
+	}
+	utem = utem->usr;
+}
+return 0;
+}
 
 int main()                                  //MAIN FUNCTION.
 {
@@ -322,15 +414,16 @@ int main()                                  //MAIN FUNCTION.
     int aid;
     int aisetd = 12345;
     int adm;
+    int id,pcheck = 0,swi;
     string apass = "pass123",eapass;
     while(1)
     {
         system("cls");
         cout<<"\t\t\t\t\t\tWELCOME\n\n\n";
-        cout<<"1)Admin Menu\n";
-        cout<<"2)User Menu\n";
-        cout<<"3)Submit Application to join\n";
-        cout<<"4)Exit Program\n";
+        cout<<"\t\t\t\t\t1)Admin Menu\n";
+        cout<<"\t\t\t\t\t2)User Menu\n";
+        cout<<"\t\t\t\t\t3)Submit Application to join\n";
+        cout<<"\t\t\t\t\t4)Exit Program\n";
         cin>>ch;
         switch(ch)
         {
@@ -342,10 +435,9 @@ int main()                                  //MAIN FUNCTION.
                                     cout<<"ID: ";
                                     cin>>aid;
                                     cout<<"\nPassword: ";
-                                    cin>>eapass;
+                                    adm = passcheck(aid);
                                     cout<<"\n";
-                                    adm = search_admin(aid,eapass);
-                                        if((eapass == apass && aid == aisetd) ||(adm == 1) ){
+                                        if(adm == 1) {
                                             system("cls");
                                             cout<<"Successfully logged in.\n";
                                         do{
@@ -386,13 +478,42 @@ int main()                                  //MAIN FUNCTION.
                                                     }
                                               }
                                             while(ach != 7);
-                                        } else{system("cls");
+                                        } else{
                                         cout<<"Incorrect Password, Please try again.\n";
                                         }
-                                                        break;
-
-
-                case 3:
+                                        break;
+                case 2 :
+										
+										system("cls");
+										cout<<"Welcome to the User Menu.\n";
+										cout<<"Please Enter your details to login.\n\n";
+										cout<<"ID: ";
+										cin>>id;
+										pcheck =  userlog(id);
+										if(pcheck == 1){
+											system("cls");
+											cout<<"Login Successful.\n";
+											do{
+												cout<<"1)View Payment status.\n";
+												cout<<"2)Send a message to the administrators.\n";
+												cout<<"3)To View Membership Plan currently ongoing.\n";
+												cout<<"4)To Update details.\n";
+												cout<<"5)To exit to main menu.\n";
+												cin>>swi;
+												switch(swi){
+													case 5:
+														cout<<"Now Exiting, Goodbye!\n";
+														break;
+													default:
+														cout<<"Incorrect Choice.\n";
+												}
+											}while(swi != 5);
+										}
+										else{;
+                                        cout<<"Incorrect Login Details, Please try again.\n";
+									}
+									break;
+                case 3 :
                                         system("cls");
                                             do{
                                             cout<<"\n\n\t\t\t\tWelcome To NOMSWORLD Gym.\n\n";
@@ -416,7 +537,7 @@ int main()                                  //MAIN FUNCTION.
                                                             cout<<"Invalid choice.\n";
                                                             }
                                             }while(tch != 3 );
-                                            break;
+                                        break;
 
 
             case 4:                                             //outermost switch
@@ -433,4 +554,3 @@ int main()                                  //MAIN FUNCTION.
 
     return 0;
 }
-
