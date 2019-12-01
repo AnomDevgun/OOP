@@ -5,6 +5,8 @@
 #include<string.h>
 using namespace std;
 int appnumber=1;
+class gym{
+private:
 struct anode{                       //ADMIN LINK LIST
     int id;
     char pass[10];
@@ -33,8 +35,7 @@ struct tnode{
     char temp_fname[10],temp_lname[10];
     struct tnode *tempnxt = NULL;
 }*temphead = NULL;
-
-
+public:
 void admin_create()             //CREATE AN ADMIN ACC->ANODE
 {
     struct anode *atemp = NULL,*newad = NULL;
@@ -167,122 +168,122 @@ return;
 }
 
 void accept_app(){                  //TO ACCEPT/REJECT APPLICATIONS
-int sapp=0, cnt =0,yno=0;
-string syes = "Your Application has been approved.Please use application number as id and first name as password to login.";
-string sno = "Your Application has been rejected.";
-struct tnode *t1,*t2;
-t1 = temphead;
-t2 = temphead;
-struct unode *u1,*u2;
-u1 = userhead;
-u2 = new unode;
-struct status *s1,*s2;
-s1 = stahead;
-s2 = new status;
-cout<<"Please Enter Application Number: ";
-cin>>sapp;
-if(t1 == NULL){
-    cout<<"The Application List is empty.\n";
-    return;
-}
-else{
-while(t1!=NULL){
-        if(t1->tdata == sapp){
-                cout<<"Application Found.\n";
-            cnt = 1;
-            break;
-        }
-        t2 = t1;
-        t1 = t1->tempnxt;
-    }
-if(cnt == 1)
-{
-cout<<"Enter 1 to accept or any other number to reject application.\n";
-cin>>yno;
-if(yno == 1){
-if(u1 == NULL){
-u2->uid = t1->tdata;
-strcpy(u2->upass,t1->temp_fname);
-strcpy(u2->user_name,t1->temp_fname);
-userhead = u2;
-u2->usr= NULL;
-}
-else{
-    while(u1->usr != NULL)
-        u1=u1->usr;
-    u2->uid= t1->tdata;
-    strcpy(u2->upass,t1->temp_fname);
-    u1->usr = u2;
-    strcpy(u2->user_name,t1->temp_fname);
-    u2->usr = NULL;
-}
-if(s1 == NULL){
-    s2->appno = t1->tdata;
-    s2->stat = syes;
-    stahead = s2;
-    s2->stnxt= NULL;
-}
-else{
-    while(s1->stnxt!=NULL){
-        s1 = s1->stnxt;
-    }
-    s2->appno = t1->tdata;
-    s2->stat = syes;
-    s1->stnxt = s2;
-    s2->stnxt=NULL;
-}
-if(t1 == temphead && t1->tempnxt==NULL){
-    temphead = NULL;
-    delete (t1);
-}
-else if(t1->tempnxt == NULL){
-t2->tempnxt = NULL;
-delete(t1);
-}
-else{
-    t2= t1->tempnxt;
-    t1->tempnxt = NULL;
-    delete(t1);
-}
-}
-else if(yno != 1){
-if(s1 == NULL){
-    s2->appno = t1->tdata;
-    s2->stat = sno;
-    stahead = s2;
-    s2->stnxt= NULL;
-}
-else{
-    while(s1->stnxt!=NULL){
-        s1 = s1->stnxt;
-    }
-    s2->appno = t1->tdata;
-    s2->stat = sno;
-    s1->stnxt = s2;
-    s2->stnxt=NULL;
-}
-if(t1 == temphead && t1->tempnxt==NULL){
-    temphead = NULL;
-    delete (t1);
-}
-else if(t1->tempnxt == NULL){
-t2->tempnxt = NULL;
-delete(t1);
-}
-else{
-    t2->tempnxt= t1->tempnxt;
-    t1->tempnxt = NULL;
-    delete(t1);
-}
-}
-}
-else if(cnt == 0)
-{
-    cout<<"Search term not found.\n";
-    return;
-
-}
-}
+	int sapp=0, cnt =0,yno=0;
+	string syes = "Your Application has been approved.Please use application number as id and first name as password to login.";
+	string sno = "Your Application has been rejected.";
+	struct tnode *t1,*t2;
+	t1 = temphead;
+	t2 = temphead;
+	struct unode *u1,*u2;
+	u1 = userhead;
+	u2 = new unode;
+	struct status *s1,*s2;
+	s1 = stahead;
+	s2 = new status;
+	cout<<"Please Enter Application Number: ";
+	cin>>sapp;
+	if(t1 == NULL){
+	    cout<<"The Application List is empty.\n";
+	    return;
+	}
+	else{
+	while(t1!=NULL){
+	        if(t1->tdata == sapp){
+	                cout<<"Application Found.\n";
+	            cnt = 1;
+	            break;
+	        }
+	        t2 = t1;
+	        t1 = t1->tempnxt;
+	    }
+	if(cnt == 1)
+	{
+	cout<<"Enter 1 to accept or any other number to reject application.\n";
+	cin>>yno;
+	if(yno == 1){
+	if(u1 == NULL){
+	u2->uid = t1->tdata;
+	strcpy(u2->upass,t1->temp_fname);
+	strcpy(u2->user_name,t1->temp_fname);
+	userhead = u2;
+	u2->usr= NULL;
+	}
+	else{
+	    while(u1->usr != NULL)
+	        u1=u1->usr;
+	    u2->uid= t1->tdata;
+	    strcpy(u2->upass,t1->temp_fname);
+	    u1->usr = u2;
+	    strcpy(u2->user_name,t1->temp_fname);
+	    u2->usr = NULL;
+	}
+	if(s1 == NULL){
+	    s2->appno = t1->tdata;
+	    s2->stat = syes;
+	    stahead = s2;
+	    s2->stnxt= NULL;
+	}
+	else{
+	    while(s1->stnxt!=NULL){
+	        s1 = s1->stnxt;
+	    }
+	    s2->appno = t1->tdata;
+	    s2->stat = syes;
+	    s1->stnxt = s2;
+	    s2->stnxt=NULL;
+	}
+	if(t1 == temphead && t1->tempnxt==NULL){
+	    temphead = NULL;
+	    delete (t1);
+	}
+	else if(t1->tempnxt == NULL){
+	t2->tempnxt = NULL;
+	delete(t1);
+	}
+	else{
+	    t2= t1->tempnxt;
+	    t1->tempnxt = NULL;
+	    delete(t1);
+	}
+	}
+	else if(yno != 1){
+	if(s1 == NULL){
+	    s2->appno = t1->tdata;
+	    s2->stat = sno;
+	    stahead = s2;
+	    s2->stnxt= NULL;
+	}
+	else{
+	    while(s1->stnxt!=NULL){
+	        s1 = s1->stnxt;
+	    }
+	    s2->appno = t1->tdata;
+	    s2->stat = sno;
+	    s1->stnxt = s2;
+	    s2->stnxt=NULL;
+	}
+	if(t1 == temphead && t1->tempnxt==NULL){
+	    temphead = NULL;
+	    delete (t1);
+	}
+	else if(t1->tempnxt == NULL){
+	t2->tempnxt = NULL;
+	delete(t1);
+	}
+	else{
+	    t2->tempnxt= t1->tempnxt;
+	    t1->tempnxt = NULL;
+	    delete(t1);
+	}
+	}
+	}
+	else if(cnt == 0)
+	{
+	    cout<<"Search term not found.\n";
+	    return;
+	
+	}
+	}
 }
 
 void view_user(){               //view user list.
@@ -300,18 +301,23 @@ while(u!=NULL){
 }
 }
 
-void view_status(){
+void view_status(int apno){				//View STATUS
 struct status *s;
 s = stahead;
 if(s == NULL)
 {
-    cout<<"User list is empty.\n";
+    cout<<"Application in Processing, Please Check again Later.\n";
 }
 else{
 while(s!=NULL){
-    cout<<"Status : "<<s->stat<<"\n";
+	if(s->appno == apno){
+		cout<<s->stat<<"\n";
+		return;
+	}
     s = s->stnxt;
 }
+if(s->stnxt == NULL && s->appno !=apno)
+cout<<"Application not found.\n";
 }
 }
 int passcheck(int a)            //password cross check
@@ -405,11 +411,11 @@ while(utem != NULL){
 }
 return 0;
 }
-
+};
 int main()                                  //MAIN FUNCTION.
 {
-
-    int ch,ach;
+	gym g;
+    int ch,ach,tempappno;
     int tch;
     int aid;
     int aisetd = 12345;
@@ -419,7 +425,7 @@ int main()                                  //MAIN FUNCTION.
     while(1)
     {
         system("cls");
-        cout<<"\t\t\t\t\t\tWELCOME\n\n\n";
+        cout<<"\t\t\t\t\t\tWelcome To FITNESSPLANET Gym\n\n\n";
         cout<<"\t\t\t\t\t1)Admin Menu\n";
         cout<<"\t\t\t\t\t2)User Menu\n";
         cout<<"\t\t\t\t\t3)Submit Application to join\n";
@@ -435,7 +441,7 @@ int main()                                  //MAIN FUNCTION.
                                     cout<<"ID: ";
                                     cin>>aid;
                                     cout<<"\nPassword: ";
-                                    adm = passcheck(aid);
+                                    adm = g.passcheck(aid);
                                     cout<<"\n";
                                         if(adm == 1) {
                                             system("cls");
@@ -446,30 +452,26 @@ int main()                                  //MAIN FUNCTION.
                                             cout<<"3)To view submitted applications.\n";
                                             cout<<"4)To accept/reject submitted applications\n";
                                             cout<<"5)To view user accounts.\n";
-                                            cout<<"6)To view status.\n";
-                                            cout<<"7)To return to main menu.\n";
+                                            cout<<"6)To return to main menu.\n";
                                                 cin>>ach;
                                                 switch(ach)
                                                     {
                                                     case 1:
-                                                            admin_create();
+                                                            g.admin_create();
                                                             break;
                                                     case 2:
-                                                            list_admin();
+                                                            g.list_admin();
                                                             break;
                                                     case 3:
-                                                            admin_viewapp();
+                                                            g.admin_viewapp();
                                                             break;
                                                     case 4:
-                                                            accept_app();
+                                                            g.accept_app();
                                                             break;
                                                     case 5:
-                                                            view_user();
+                                                            g.view_user();
                                                             break;
                                                     case 6:
-                                                            view_status();
-                                                            break;
-                                                    case 7:
                                                             cout<<"Returning to main menu.\n";
                                                                 system("cls");
                                                                 break;
@@ -477,7 +479,7 @@ int main()                                  //MAIN FUNCTION.
                                                             cout<<"Incorrect Choice.\n";
                                                     }
                                               }
-                                            while(ach != 7);
+                                            while(ach != 6);
                                         } else{
                                         cout<<"Incorrect Password, Please try again.\n";
                                         }
@@ -489,7 +491,7 @@ int main()                                  //MAIN FUNCTION.
 										cout<<"Please Enter your details to login.\n\n";
 										cout<<"ID: ";
 										cin>>id;
-										pcheck =  userlog(id);
+										pcheck =  g.userlog(id);
 										if(pcheck == 1){
 											system("cls");
 											cout<<"Login Successful.\n";
@@ -509,14 +511,14 @@ int main()                                  //MAIN FUNCTION.
 												}
 											}while(swi != 5);
 										}
-										else{;
+										else{
                                         cout<<"Incorrect Login Details, Please try again.\n";
 									}
 									break;
                 case 3 :
                                         system("cls");
                                             do{
-                                            cout<<"\n\n\t\t\t\tWelcome To NOMSWORLD Gym.\n\n";
+                                            cout<<"\n\n\t\t\t\tWelcome To FITNESSPLANET Gym.\n\n";
                                             cout<<"1)To Submit New Application\n";
                                             cout<<"2)To Check Status of application\n";
                                             cout<<"3)To exit to main menu.\n";
@@ -525,10 +527,12 @@ int main()                                  //MAIN FUNCTION.
                                                     case 1:
                                                             system("cls");
                                                             cout<<"HELLO!\nYou are submitting a new application.\n\n\n";
-                                                            temp_application();
+                                                            g.temp_application();
                                                             break;
                                                     case 2:
-
+                                                    		cout<<"Please Enter Application Number: ";
+                                                    		cin>>tempappno;
+                                                    		g.view_status(tempappno);
                                                             break;
                                                     case 3:
                                                             system("cls");
